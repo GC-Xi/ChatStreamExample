@@ -3,44 +3,36 @@ package com.xizz.chatstreamtesting
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.xizz.chatstreamtesting.ui.theme.ChatStreamTestingTheme
+import androidx.activity.viewModels
+import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
+import io.getstream.chat.android.compose.ui.theme.ChatTheme
+import io.getstream.chat.android.compose.viewmodel.channels.ChannelListViewModel
+import io.getstream.chat.android.compose.viewmodel.channels.ChannelViewModelFactory
+import io.getstream.chat.android.models.querysort.QuerySortByField
 
 class MainActivity : ComponentActivity() {
+
+    private val factory by lazy {
+        ChannelViewModelFactory(
+            chatClient = ChatClient.instance(),
+            querySort = QuerySortByField.descByName("last_updated"),
+            filters = null
+        )
+    }
+
+    private val listViewModel: ChannelListViewModel by viewModels { factory }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ChatStreamTestingTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+            setContent {
+                ChatTheme {
+                    ChannelsScreen(
+                        viewModelFactory = factory,
+                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ChatStreamTestingTheme {
-        Greeting("Android")
     }
 }

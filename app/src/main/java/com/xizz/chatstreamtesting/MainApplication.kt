@@ -63,9 +63,25 @@ class MainApplication : Application() {
                         Log.e("xizz", "connectUser success: ${userResult.value}")
                     }
                 }
+
+                // Create channel
+                // val channelResult = ChatClient.instance().createChannel(
+                //     channelType = "messaging",
+                //     channelId = "channel_002",
+                //     memberIds = users.map { it.first.id },
+                //     extraData = emptyMap(),
+                // ).await()
+                //
+                // when (channelResult) {
+                //     is Result.Failure -> {
+                //         Log.e("xizz", "connectUser failed: ${channelResult.errorOrNull()}")
+                //     }
+                //     is Result.Success -> {
+                //         Log.e("xizz", "create channel success: ${channelResult.value}")
+                //     }
+                // }
             }
         }
-
     }
 }
 
