@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762754283258",
+    "project_id": "chat-stream-b3065",
+    "storage_bucket": "chat-stream-b3065.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762754283258:android:5994ff590d24c8b931bb43",
+        "android_client_info": {
+          "package_name": "com.xizz.chatstreamtesting"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWISYCXOt7hQealDpiZ2Hj3sI8aERoAdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
