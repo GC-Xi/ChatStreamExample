@@ -14,8 +14,13 @@ import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
+import io.getstream.result.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
-class MainApplication: Application() {
+class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -24,7 +29,6 @@ class MainApplication: Application() {
         Log.e("xizz", "FirebaseApp.initializeApp done")
 
         val notificationConfig = NotificationConfig(
-            pushNotificationsEnabled = true,
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = ""))
         )
         val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
@@ -46,5 +50,30 @@ class MainApplication: Application() {
             .disableDistinctApiCalls()
             .logLevel(ChatLogLevel.ALL)
             .build()
+
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                val firebaseToken = FirebaseMessaging.getInstance().token.await()
+                Log.e("xizz", "Firebase token: $firebaseToken")
+
+                val user = User(
+                    id = "user_001",
+                    name = "User One",
+                    image= "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN9NVBIOk_blWPFbW7lJfwX3FNO6jMIsDdZg&s",
+                )
+                // Use the following link to generate user JWT
+                // https://getstream.io/chat/docs/javascript/token_generator/
+                val userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcl8wMDEifQ.e-FQ61a5QYBkzKAKt28LNvtK4-5vTzhsQ4uy8-3chss"
+
+                when (val userResult = ChatClient.instance().connectUser(user, userToken).await()) {
+                    is Result.Failure -> {
+                        Log.e("xizz", "connectUser failed: ${userResult.errorOrNull()}")
+                    }
+                    is Result.Success -> {
+                        Log.e("xizz", "connectUser success: ${userResult.value}")
+                    }
+                }
+            }
+        }
     }
 }
