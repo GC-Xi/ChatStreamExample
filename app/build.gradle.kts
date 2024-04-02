@@ -64,6 +64,13 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
 
+    implementation ("io.getstream:stream-chat-android-client:6.2.3")
+    implementation ("io.getstream:stream-chat-android-state:6.2.3")
+    implementation ("io.getstream:stream-chat-android-offline:6.2.3")
+    implementation ("io.getstream:stream-chat-android-ui-components:6.2.3")
+    implementation ("io.getstream:stream-chat-android-compose:6.2.3")
+    implementation ("io.getstream:stream-android-push-firebase:1.1.7")
+
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)
