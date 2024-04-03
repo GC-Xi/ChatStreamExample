@@ -1,5 +1,6 @@
 package com.xizz.chatstreamtesting
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,6 +31,14 @@ class MainActivity : ComponentActivity() {
                 ChatTheme {
                     ChannelsScreen(
                         viewModelFactory = factory,
+                        onChannelClick = { channel ->
+                            val myIntent: Intent = Intent(this, MessageActivity::class.java)
+                            myIntent.putExtra("channelId", channel.cid)
+                            startActivity(myIntent)
+                        },
+                        onViewChannelInfoAction = { channel ->
+                            listViewModel.selectChannel(channel)
+                        }
                     )
                 }
             }
