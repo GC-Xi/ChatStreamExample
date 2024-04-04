@@ -28,7 +28,7 @@ class MainApplication : Application() {
 
         val notificationConfig = NotificationConfig(
             pushNotificationsEnabled = true,
-            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = ""))
+            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "Firebase"))
         )
         val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
             context = applicationContext,
@@ -55,7 +55,7 @@ class MainApplication : Application() {
                 // Use the following link to generate user JWT
                 // https://getstream.io/chat/docs/javascript/token_generator/
 
-                val (user, token) = users[1]
+                val (user, token) = users[0]
                 when (val userResult = ChatClient.instance().connectUser(user, token).await()) {
                     is Result.Failure -> {
                         Log.e("xizz", "connectUser failed: ${userResult.errorOrNull()}")
